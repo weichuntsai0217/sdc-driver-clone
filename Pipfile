@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+keras = "==1.2"
+tensorflow = "==1.1"
+moviepy = "*"
+imageio = "*"
+pandas = "*"
+seaborn = "*"
+flask-socketio = "*"
+eventlet = "*"
+"h5py" = "*"
+scipy = "*"
+scikit-image = "*"
+scikit-learn = "*"
+pillow = "*"
+matplotlib = "*"
+jupyter = "*"
+opencv-python = "*"
+numpy = "==1.12.1"
+
+[dev-packages]
+
+[requires]
+python_version = "3.5"
