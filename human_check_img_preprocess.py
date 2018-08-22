@@ -6,7 +6,7 @@ import utils
 
 # User input from sys.argv - START:
 img_path = sys.argv[1] # argument 1 is img absolute path, please refer to your 'driving_log.csv'.
-steering_angle = int(sys.argv[2]) # argument 1 is steering angle.
+steering_angle = float(sys.argv[2]) # argument 1 is steering angle.
 # User input from sys.argv - END
 
 range_x = 100
