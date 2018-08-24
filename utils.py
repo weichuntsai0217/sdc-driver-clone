@@ -3,22 +3,30 @@ import numpy as np
 import matplotlib.image as mpimg
 
 
-IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS = 240, 320, 3
+IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS = 66, 200, 3
 INPUT_SHAPE = (IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS)
 
+def deg2rad(degree):
+    return degree / 180.0 * np.pi
+
+def rad2deg(radius):
+    return radius / np.pi * 180.0
+
+def bgr2rgb(img):
+    return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 def load_image(data_dir, image_file):
     """
     Load RGB images from a file
     """
-    return mpimg.imread(os.path.join(data_dir, image_file.strip()))
+    return bgr2rgb(cv2.imread(os.path.join(data_dir, image_file.strip())))
 
 
 def crop(image):
     """
     Crop the image (removing the sky at the top and the car front at the bottom)
     """
-    return image[60:-25, :, :] # remove the sky and the car front
+    return image[16:176, :, :] # remove the sky and the car front
 
 
 def resize(image):
@@ -32,15 +40,15 @@ def rgb2yuv(image):
     """
     Convert the image from RGB to YUV (This is what the NVIDIA model does)
     """
-    return cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
+    return cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
 
 
 def preprocess(image):
     """
     Combine all preprocess functions into one
     """
-    # image = crop(image)
-    # image = resize(image)
+    image = crop(image)
+    image = resize(image)
     image = rgb2yuv(image)
     return image
 
@@ -60,7 +68,7 @@ def random_translate(image, steering_angle, range_x, range_y):
     """
     trans_x = range_x * (np.random.rand() - 0.5)
     trans_y = range_y * (np.random.rand() - 0.5)
-    steering_angle += trans_x * 0.11459155902616465
+    steering_angle += rad2deg(trans_x * 0.002)
     trans_m = np.float32([[1, 0, trans_x], [0, 1, trans_y]])
     height, width = image.shape[:2]
     image = cv2.warpAffine(image, trans_m, (width, height))
@@ -114,8 +122,8 @@ def augument(data_dir, center, steering_angle, range_x=100, range_y=10):
     image = load_image(data_dir, center)
     image, steering_angle = random_flip(image, steering_angle)
     image, steering_angle = random_translate(image, steering_angle, range_x, range_y)
-    image = random_shadow(image)
-    image = random_brightness(image)
+    # image = random_shadow(image)
+    # image = random_brightness(image)
     return image, steering_angle
 
 

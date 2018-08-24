@@ -19,9 +19,6 @@ def load_data(args):
     data_df = pd.read_csv(os.path.join(args.data_dir, 'driving_log.csv'))
 
     X = data_df[['center']].values
-    print('\n =START================================')
-    print(X)
-    print('=END================================\n')
     y = data_df['steering'].values
 
     X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=args.test_size, random_state=0)

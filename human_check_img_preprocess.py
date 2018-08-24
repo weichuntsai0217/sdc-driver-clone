@@ -21,12 +21,13 @@ def show_imgs(images):
     plt.show()
 
 # Preprocess for model - START:
-image = mpimg.imread(img_path)
+image = utils.bgr2rgb(cv2.imread(img_path))
 image_flip, steering_angle = utils.random_flip(image, steering_angle)
 image_translate, steering_angle = utils.random_translate(image_flip, steering_angle, range_x, range_y)
-image_shadow = utils.random_shadow(image_translate)
-image_brightness = utils.random_brightness(image_shadow)
-image_crop = utils.crop(image_brightness)
+# image_shadow = utils.random_shadow(image_translate)
+# image_brightness = utils.random_brightness(image_shadow)
+# image_crop = utils.crop(image_brightness)
+image_crop = utils.crop(image_translate)
 image_resize = utils.resize(image_crop)
 image_rgb2yuv = utils.rgb2yuv(image_resize)
 # Preprocess for model - END
@@ -35,8 +36,8 @@ images = [
     image,
     image_flip,
     image_translate,
-    image_shadow,
-    image_brightness,
+#     image_shadow,
+#     image_brightness,
     image_crop,
     image_resize,
     image_rgb2yuv,

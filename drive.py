@@ -26,9 +26,6 @@ MIN_SPEED = 0.15
 
 speed_limit = MAX_SPEED
 
-def deg2rad(degree):
-    return degree / 180.0 * np.pi
-
 @sio.on('telemetry')
 def telemetry(sid, data):
     if data:
@@ -61,7 +58,7 @@ def telemetry(sid, data):
                 speed_limit = MIN_SPEED  # slow down
             else:
                 speed_limit = MAX_SPEED
-            throttle = 1.0 - deg2rad(steering_angle)**2 - (speed/speed_limit)**2
+            throttle = 1.0 - utils.deg2rad(steering_angle)**2 - (speed/speed_limit)**2
 
             print('{} {} {}'.format(steering_angle, throttle, speed))
             send_control(steering_angle, throttle)
