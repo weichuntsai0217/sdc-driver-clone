@@ -14,6 +14,8 @@ from io import BytesIO
 
 from keras.models import load_model
 
+import cv2
+
 import utils
 
 sio = socketio.Server()
@@ -25,6 +27,11 @@ MAX_SPEED = 0.3 # The actual Trend Simulator speed upper bound is 2.0
 MIN_SPEED = 0.15
 
 speed_limit = MAX_SPEED
+
+def show_img(img, title = ''):
+    cv2.imshow(title, img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 @sio.on('telemetry')
 def telemetry(sid, data):
